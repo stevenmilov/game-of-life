@@ -12,10 +12,10 @@ public class GameOfLife{
 
   public static void main(String[] args){
     // ============================== CHANGE DATA OF MATRIX HERE
-    int[] inputData = {1,1,1,1,0,0,1,1,0};
+    int[] inputData = {1,1,1,1,0,0,1,1,0,1,1,1};
 
     // ============================== CHANGE MATRIX SIZE HERE
-    int[][] input = new int[3][3];
+    int[][] input = new int[4][3];
     fillInputMatrix(input,inputData);
 
     System.out.println("Input matrix:");
@@ -111,31 +111,31 @@ public class GameOfLife{
     return false;
   }
   public static boolean checkUpRight(int[][] arr, int row, int col){
-    if(row-1 < 0 || col+1 >= arr.length) return false;
+    if(row-1 < 0 || col+1 >= arr[0].length) return false;
     if(arr[row-1][col+1] == 1) return true;
     return false;
   }
 
   public static boolean checkRight(int[][] arr, int row, int col){
-    if(col+1 >= arr.length) return false;
+    if(col+1 >= arr[0].length) return false;
     if(arr[row][col+1] == 1) return true;
     return false;
   }
 
   public static boolean checkRightDown(int[][] arr, int row, int col){
-    if(row+1 >= arr[0].length || col+1 >= arr.length) return false;
+    if(row+1 >= arr.length || col+1 >= arr[0].length) return false;
     if(arr[row+1][col+1] == 1) return true;
     return false;
   }
 
   public static boolean checkDown(int[][] arr, int row, int col){
-    if(row+1 >= arr[0].length) return false;
+    if(row+1 >= arr.length) return false;
     if(arr[row+1][col] == 1) return true;
     return false;
   }
 
   public static boolean checkDownLeft(int[][] arr, int row, int col){
-    if(row+1 >= arr[0].length || col-1 < 0) return false;
+    if(row+1 >= arr.length || col-1 < 0) return false;
     if(arr[row+1][col-1] == 1) return true;
     return false;
   }

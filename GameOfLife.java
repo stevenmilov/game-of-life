@@ -1,56 +1,47 @@
+/*==============================================================================
+This program simulates one iteration of the game of life.
+
+In order to change the initial matrix, you must change inputData and input
+as described below.
+
+==============================================================================*/
+
 import java.util.*;
-
-/*
-References:
-  https://stackoverflow.com/questions/20157372/fill-a-matrix-2d-array-recursively-in-java
-*/
-
-/*
-According to the Wikipedia's article: "The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970."
-Given a board with m by n cells, each cell has an initial state live (1) or dead (0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules:
-* Any live cell with fewer than two live neighbors dies, as if caused by under-population.
-* Any live cell with two or three live neighbors lives on to the next generation.
-* Any live cell with more than three live neighbors dies, as if by over-population..
-* Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-* Write a function to compute the next state (after one update) of the board given its current state.
-*/
-// Example:
-// nextGeneration([
-//   [1, 1, 1],
-//   [1, 0, 0],
-//   [1, 1, 0]
-// ])
-//
-// // Will return:
-// [
-//   [1, 1, 0],
-//   [0, 0, 1],
-//   [1, 1, 0]
-// ]
-
 
 public class GameOfLife{
 
   public static void main(String[] args){
+    // ============================== CHANGE DATA OF MATRIX HERE
     int[] inputData = {1,1,1,1,0,0,1,1,0};
-    // create 2D matrix with values given:
+
+    // ============================== CHANGE MATRIX SIZE HERE
     int[][] input = new int[3][3];
     fillInputMatrix(input,inputData);
 
     System.out.println("Input matrix:");
     printArray(input);
 
-    int[][] output = new int[3][3];
+    int[][] output = new int[input.length][input[0].length];
+    // ============================== PLAY LIFE!
     playLife(input,output,0,0);
     System.out.println("Output matrix:");
     printArray(output);
 
   } //EOM
 
+/**
+  * This is a recursive function to check every value in the given matrix
+  *
+  * @param  in   the initial matrix
+  * @param  out   the final matrix
+  * @param  row   the current row
+  * @param  col   the current column
+  */
+
   public static void playLife(int[][] in, int[][] out, int row, int col){
     if (row < in.length) {
         if (col < in[row].length) {
-            System.out.println("In row: "+row+" In col: "+col);
+            //System.out.println("In row: "+row+" In col: "+col);
             out[row][col] = ((willCellLive(in,row,col)) ? 1 : 0);
             playLife(in, out, row, col+1);
         } else {
@@ -59,9 +50,16 @@ public class GameOfLife{
     }
   }
 
+/**
+  * This function counts neighbors and determines the current cell's fate
+  *
+  * @param  arr   the given initial matrix
+  * @param  row   the current row
+  * @param  col   the current column
+  * @return       true if cell will live, false if cell will die
+  */
 
   public static boolean willCellLive(int[][] arr, int row, int col){
-    System.out.println("\t will cell live?? In row: "+row+" In col: "+col);
     int neighbors = 0;
     neighbors += ((checkUp(arr,row,col)) ? 1 : 0);
     neighbors += ((checkUpRight(arr,row,col)) ? 1 : 0);
@@ -71,7 +69,7 @@ public class GameOfLife{
     neighbors += ((checkDownLeft(arr,row,col)) ? 1 : 0);
     neighbors += ((checkLeft(arr,row,col)) ? 1 : 0);
     neighbors += ((checkUpLeft(arr,row,col)) ? 1 : 0);
-    System.out.println("\tneighbors: "+neighbors);
+    //System.out.println("\tneighbors: "+neighbors);
     if(arr[row][col] == 1){
 
       if(neighbors < 2){ // 0 or 1 neighbors
@@ -84,19 +82,29 @@ public class GameOfLife{
 
     }else if(arr[row][col] == 0){
 
-      if(neighbors == 3){
+      if(neighbors == 3){ //dead cell will only live if it has 3 neighbors
         return true;
-      }else{
+      }else{ // stay dead
         return false;
       }
 
-    }else{
+    }else{ //should never happen
       System.out.println("Error! Should only be 0 or 1");
       System.exit(0);
     }
     return false;
 
   }
+
+/**
+  * These following functions check every surrounding cell and counts neighbors
+  *
+  * @param  arr   the initial matrix
+  * @param  row   the current row
+  * @param  col   the current column
+  * @return       true if specified neighbor is alive
+  */
+
   public static boolean checkUp(int[][] arr, int row, int col){
     if(row-1 < 0) return false;
     if(arr[row-1][col] == 1) return true;
@@ -143,6 +151,14 @@ public class GameOfLife{
     if(arr[row-1][col-1] == 1) return true;
     return false;
   }
+
+/**
+  * Helper function
+  *
+  * @param  in   the initial matrix to fill
+  * @param  inData   the given data to fill the initial matrix
+  */
+
   public static void fillInputMatrix(int[][] in, int[] inData){
     int count = 0;
     for(int i = 0; i < in.length; i++){
@@ -152,6 +168,13 @@ public class GameOfLife{
       }
     }
   }
+
+/**
+  * Helper function
+  *
+  * @param  arr   array to be printed
+  *
+  */
 
   public static void printArray(int[][] arr){
     System.out.println("===============");

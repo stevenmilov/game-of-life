@@ -50,48 +50,98 @@ public class GameOfLife{
   public static void playLife(int[][] in, int[][] out, int row, int col){
     if (row < in.length) {
         if (col < in[row].length) {
+            System.out.println("In row: "+row+" In col: "+col);
             out[row][col] = ((willCellLive(in,row,col)) ? 1 : 0);
-
             playLife(in, out, row, col+1);
         } else {
             playLife(in, out, row+1, 0);
         }
     }
-
   }
+
 
   public static boolean willCellLive(int[][] arr, int row, int col){
-    return true;
-  }
-  public static void checkUp(){
+    System.out.println("\t will cell live?? In row: "+row+" In col: "+col);
+    int neighbors = 0;
+    neighbors += ((checkUp(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkUpRight(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkRight(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkRightDown(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkDown(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkDownLeft(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkLeft(arr,row,col)) ? 1 : 0);
+    neighbors += ((checkUpLeft(arr,row,col)) ? 1 : 0);
+    System.out.println("\tneighbors: "+neighbors);
+    if(arr[row][col] == 1){
+
+      if(neighbors < 2){ // 0 or 1 neighbors
+        return false;
+      }else if(neighbors == 2 || neighbors == 3){ // 2 or 3 neighbors
+        return true;
+      }else{ // >3 neighbors
+        return false;
+      }
+
+    }else if(arr[row][col] == 0){
+
+      if(neighbors == 3){
+        return true;
+      }else{
+        return false;
+      }
+
+    }else{
+      System.out.println("Error! Should only be 0 or 1");
+      System.exit(0);
+    }
+    return false;
 
   }
-  public static void checkUpRight(){
-
+  public static boolean checkUp(int[][] arr, int row, int col){
+    if(row-1 < 0) return false;
+    if(arr[row-1][col] == 1) return true;
+    return false;
+  }
+  public static boolean checkUpRight(int[][] arr, int row, int col){
+    if(row-1 < 0 || col+1 >= arr.length) return false;
+    if(arr[row-1][col+1] == 1) return true;
+    return false;
   }
 
-  public static void checkRight(){
-
+  public static boolean checkRight(int[][] arr, int row, int col){
+    if(col+1 >= arr.length) return false;
+    if(arr[row][col+1] == 1) return true;
+    return false;
   }
 
-  public static void checkRightDown(){
-
+  public static boolean checkRightDown(int[][] arr, int row, int col){
+    if(row+1 >= arr[0].length || col+1 >= arr.length) return false;
+    if(arr[row+1][col+1] == 1) return true;
+    return false;
   }
 
-  public static void checkDown(){
-
+  public static boolean checkDown(int[][] arr, int row, int col){
+    if(row+1 >= arr[0].length) return false;
+    if(arr[row+1][col] == 1) return true;
+    return false;
   }
 
-  public static void checkDownLeft(){
-
+  public static boolean checkDownLeft(int[][] arr, int row, int col){
+    if(row+1 >= arr[0].length || col-1 < 0) return false;
+    if(arr[row+1][col-1] == 1) return true;
+    return false;
   }
 
-  public static void checkLeft(){
-
+  public static boolean checkLeft(int[][] arr, int row, int col){
+    if(col-1 < 0) return false;
+    if(arr[row][col-1] == 1) return true;
+    return false;
   }
 
-  public static void checkUpLeft(){
-
+  public static boolean checkUpLeft(int[][] arr, int row, int col){
+    if(row-1 < 0 || col-1 < 0) return false;
+    if(arr[row-1][col-1] == 1) return true;
+    return false;
   }
   public static void fillInputMatrix(int[][] in, int[] inData){
     int count = 0;
